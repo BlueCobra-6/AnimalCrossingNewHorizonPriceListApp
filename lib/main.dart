@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -27,9 +31,10 @@ class ListAnimalPage extends StatefulWidget {
 }
 
 class _ListPersonPageState extends State<ListAnimalPage> {
+  Future<List<Animal>> _future;
   TextEditingController searchController = new TextEditingController();
 
-  List<Animal> allAnimals = Animal.getAnimals();
+  List<Animal> allAnimals = List<Animal>();
   List<Animal> filteredAnimals = List<Animal>();
   List<Animal> searchedAnimals = List<Animal>();
 
@@ -46,10 +51,9 @@ class _ListPersonPageState extends State<ListAnimalPage> {
     _sortAsc = true;
     _sortColumnIndex = 0;
     advancedFilterVisibility = false;
-    filteredAnimals.addAll(allAnimals);
-    searchedAnimals.addAll(allAnimals);
+
+    _future = fetchAnimals(context);
     _typeFilters.addAll(AnimalType.values);
-    searchedAnimals.sort((a, b) => a.name.compareTo(b.name));
     super.initState();
   }
 
@@ -78,21 +82,21 @@ class _ListPersonPageState extends State<ListAnimalPage> {
 
   void sortResults() {
     switch (_sortColumnIndex) {
-      case 0:
+      case 1:
         if(_sortAsc) {
           searchedAnimals.sort((a, b) => a.name.compareTo(b.name));
         } else {
           searchedAnimals.sort((a, b) => b.name.compareTo(a.name));
         }
         break;
-      case 1:
+      case 2:
         if(_sortAsc) {
           searchedAnimals.sort((a, b) => a.price.compareTo(b.price));
         } else {
           searchedAnimals.sort((a, b) => b.price.compareTo(a.price));
         }
         break;
-      case 2:
+      case 3:
         if(_sortAsc) {
           searchedAnimals.sort((a, b) => a.type.index.compareTo(b.type.index));
         } else {
@@ -107,6 +111,16 @@ class _ListPersonPageState extends State<ListAnimalPage> {
     searchResults();
     sortResults();
   }
+
+  Future<List<Animal>> fetchAnimals(BuildContext context) async {
+    final data = await DefaultAssetBundle
+        .of(context)
+        .loadString('data/data.json');
+    print("fetched animal data");
+
+    return compute(parseAnimals, data);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -164,11 +178,11 @@ class _ListPersonPageState extends State<ListAnimalPage> {
                           child: Text("Type"),
                         ),
                         FilterChip(
-                          label: Text("Bug"),
-                          selected: _typeFilters.contains(AnimalType.bug),
+                          label: Text("Insect"),
+                          selected: _typeFilters.contains(AnimalType.insect),
                           onSelected: (bool value) {
                             setState(() {
-                              updateFilter(AnimalType.bug, value);
+                              updateFilter(AnimalType.insect, value);
                               filterSearchAndSortResults();
                             });
                           },
@@ -202,83 +216,102 @@ class _ListPersonPageState extends State<ListAnimalPage> {
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: DataTable(
-                  sortAscending: _sortAsc,
-                  sortColumnIndex: _sortColumnIndex,
-                  columns: [
-                    DataColumn(
-                      label: Text("Icon", style: TextStyle(fontSize: 16)),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Name", style: TextStyle(fontSize: 16)),
-                      numeric: false,
-                      onSort: (columnIndex, sortAscending) {
-                        setState(() {
-                          if (columnIndex == _sortColumnIndex) {
-                            _sortAsc = sortAscending;
-                          } else {
-                            _sortColumnIndex = columnIndex;
-                            _sortAsc = true;
-                          }
-                          filterSearchAndSortResults();
-                        });
-                      },
-                    ),
-                    DataColumn(
-                      label: Text("Price", style: TextStyle(fontSize: 16)),
-                      numeric: true,
-                      onSort: (columnIndex, sortAscending) {
-                        setState(() {
-                          if (columnIndex == _sortColumnIndex) {
-                            _sortAsc = sortAscending;
-                          } else {
-                            _sortColumnIndex = columnIndex;
-                            _sortAsc = true;
-                          }
-                          filterSearchAndSortResults();
-                        });
-                      },
-                    ),
-                    DataColumn(
-                      label: Text("Type", style: TextStyle(fontSize: 16)),
-                      numeric: false,
-                      onSort: (columnIndex, sortAscending) {
-                        setState(() {
-                          if (columnIndex == _sortColumnIndex) {
-                            _sortAsc = sortAscending;
-                          } else {
-                            _sortColumnIndex = columnIndex;
-                            _sortAsc = true;
-                          }
-                          filterSearchAndSortResults();
-                        });
-                      },
-                    ),
-                  ],
-                  rows: searchedAnimals
-                      .map(
-                        (avenger) => DataRow(
-    //                    selected: selectedAvengers.contains(avenger),
-                        cells: [
-                          DataCell(
-                            avenger.icon,
+                child: FutureBuilder(
+                  future: _future,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                    }
+
+                    if(!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+
+                    if(snapshot.hasData) {
+                      allAnimals = snapshot.data;
+                      filterSearchAndSortResults();
+                      return DataTable(
+                        sortAscending: _sortAsc,
+                        sortColumnIndex: _sortColumnIndex,
+                        columns: [
+                          DataColumn(
+                            label: Text("Icon", style: TextStyle(fontSize: 16)),
+                            numeric: false,
                           ),
-                          DataCell(
-                            Text(avenger.name),
-    //                        onTap: () {
-    //                          print('Selected ${avenger.name}');
-    //                        },
+                          DataColumn(
+                            label: Text("Name", style: TextStyle(fontSize: 16)),
+                            numeric: false,
+                            onSort: (columnIndex, sortAscending) {
+                              setState(() {
+                                if (columnIndex == _sortColumnIndex) {
+                                  _sortAsc = sortAscending;
+                                } else {
+                                  _sortColumnIndex = columnIndex;
+                                  _sortAsc = true;
+                                }
+                                filterSearchAndSortResults();
+                              });
+                            },
                           ),
-                          DataCell(
-                            Text(avenger.price.toString()),
+                          DataColumn(
+                            label: Text("Price", style: TextStyle(fontSize: 16)),
+                            numeric: true,
+                            onSort: (columnIndex, sortAscending) {
+                              setState(() {
+                                if (columnIndex == _sortColumnIndex) {
+                                  _sortAsc = sortAscending;
+                                } else {
+                                  _sortColumnIndex = columnIndex;
+                                  _sortAsc = true;
+                                }
+                                filterSearchAndSortResults();
+                              });
+                            },
                           ),
-                          DataCell(
-                            Text(avenger.type.toShortString()),
+                          DataColumn(
+                            label: Text("Type", style: TextStyle(fontSize: 16)),
+                            numeric: false,
+                            onSort: (columnIndex, sortAscending) {
+                              setState(() {
+                                if (columnIndex == _sortColumnIndex) {
+                                  _sortAsc = sortAscending;
+                                } else {
+                                  _sortColumnIndex = columnIndex;
+                                  _sortAsc = true;
+                                }
+                                filterSearchAndSortResults();
+                              });
+                            },
                           ),
-                        ]),
-                  )
-                      .toList(),
+                        ],
+                        rows: searchedAnimals
+                            .map(
+                              (avenger) => DataRow(
+          //                    selected: selectedAvengers.contains(avenger),
+                              cells: [
+                                DataCell(
+                                  avenger.icon,
+                                ),
+                                DataCell(
+                                  Text(avenger.name),
+          //                        onTap: () {
+          //                          print('Selected ${avenger.name}');
+          //                        },
+                                ),
+                                DataCell(
+                                  Text(avenger.price.toString()),
+                                ),
+                                DataCell(
+                                  Text(avenger.type.toShortString()),
+                                ),
+                              ]),
+                        )
+                            .toList(),
+                      );
+                    }
+
+                    return Center();
+                  }
                 ),
               ),
             ),
@@ -302,37 +335,27 @@ class Animal {
     this.icon = Image(image: AssetImage(this.iconName));
   }
 
-  static List<Animal> getAnimals() {
-    return <Animal>[
-      Animal(iconName: 'images/Fish6.png', name: "Koi", price: 4000, type: AnimalType.fish),
-      Animal(iconName: 'images/Ins12.png',name: "Wasp", price: 2500, type: AnimalType.bug),
-      Animal(iconName: 'images/Hitode.png',name: "Sea Star", price: 500, type: AnimalType.sea),
-      Animal(iconName: 'images/Namako.png',name: "Sea Cucumber", price: 500, type: AnimalType.sea),
-      Animal(iconName: 'images/Fish1.png',name: "Carp", price: 300, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish2.png',name: "Dace", price: 240, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish3.png',name: "Crucian Carp", price: 160, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish5.png',name: "Pale Chub", price: 160, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish7.png',name: "Bitterling", price: 900, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish8.png',name: "Goldfish", price: 1300, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish9.png',name: "Pop-eyed Goldfish", price: 1300, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish10.png',name: "Ranchu Goldfish", price: 4500, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish11.png',name: "Killifish", price: 300, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish12.png',name: "Crawfish", price: 200, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish13.png',name: "Soft-shelled Turtle", price: 3750, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish14.png',name: "Snapping Turtle", price: 5000, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish64.png', name: "Tadpole", price: 100, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish16.png',name: "Frog", price: 120, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish17.png',name: "Freshwater Goby", price: 400, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish18.png',name: "Loach", price: 400, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish19.png',name: "Catfish", price: 800, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish20.png',name: "Giant Snakehead", price: 5500, type: AnimalType.fish),
-      Animal(iconName: 'images/Fish21.png',name: "Bluegill", price: 180, type: AnimalType.fish),
-    ];
+  Animal.fromJson(Map<String, dynamic> json)
+      : iconName = json['iconName'],
+        name = json['name'],
+        price = json['price'],
+        type = parseAnimalType(json['type'])
+  {
+    this.icon = Image(image: AssetImage(this.iconName));
   }
+
+  Map<String, dynamic> toJson() =>
+  {
+    'iconName': iconName,
+    'name': name,
+    'price': price,
+    'type': type,
+  };
 }
 
 enum AnimalType {
-  bug,
+  other,
+  insect,
   fish,
   sea,
 }
@@ -356,4 +379,23 @@ extension ParseToString on AnimalType {
   String toShortString() {
     return this.toString().split('.').last;
   }
+}
+
+AnimalType parseAnimalType(String type) {
+  switch (type) {
+    case "insect":
+      return AnimalType.insect;
+    case "sea":
+      return AnimalType.sea;
+    case "fish":
+      return AnimalType.fish;
+    default:
+      return AnimalType.other;
+  }
+}
+
+List<Animal> parseAnimals(String responseBody) {
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+  return parsed.map<Animal>((json) => Animal.fromJson(json)).toList();
 }

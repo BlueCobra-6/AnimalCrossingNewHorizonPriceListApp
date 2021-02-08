@@ -1,0 +1,141 @@
+[
+
+  {
+    "iconName": "images/Fish6.png",
+    "name": "Koi",
+    "price": 4000,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Ins12.png",
+    "name": "Wasp",
+    "price": 2500,
+    "type": "insect"
+  },
+  {
+    "iconName": "images/Hitode.png",
+    "name": "Sea Star",
+    "price": 500,
+    "type": "sea"
+  },
+  {
+    "iconName": "images/Namako.png",
+    "name": "Sea Cucumber",
+    "price": 500,
+    "type": "sea"
+  },
+  {
+    "iconName": "images/Fish1.png",
+    "name": "Carp",
+    "price": 300,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish2.png",
+    "name": "Dace",
+    "price": 240,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish3.png",
+    "name": "Crucian Carp",
+    "price": 160,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish5.png",
+    "name": "Pale Chub",
+    "price": 160,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish7.png",
+    "name": "Bitterling",
+    "price": 900,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish8.png",
+    "name": "Goldfish",
+    "price": 1300,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish9.png",
+    "name": "Pop-eyed Goldfish",
+    "price": 1300,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish10.png",
+    "name": "Ranchu Goldfish",
+    "price": 4500,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish11.png",
+    "name": "Killifish",
+    "price": 300,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish12.png",
+    "name": "Crawfish",
+    "price": 200,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish13.png",
+    "name": "Soft-shelled Turtle",
+    "price": 3750,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish14.png",
+    "name": "Snapping Turtle",
+    "price": 5000,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish64.png",
+    "name": "Tadpole",
+    "price": 100,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish16.png",
+    "name": "Frog",
+    "price": 120,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish17.png",
+    "name": "Freshwater Goby",
+    "price": 400,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish18.png",
+    "name": "Loach",
+    "price": 400,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish19.png",
+    "name": "Catfish",
+    "price": 800,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish20.png",
+    "name": "Giant Snakehead",
+    "price": 5500,
+    "type": "fish"
+  },
+  {
+    "iconName": "images/Fish21.png",
+    "name": "Bluegill",
+    "price": 180,
+    "type": "fish"
+  }
+]
