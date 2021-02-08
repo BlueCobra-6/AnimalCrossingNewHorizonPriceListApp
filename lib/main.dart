@@ -36,6 +36,10 @@ class _ListPersonPageState extends State<ListAnimalPage> {
   String searchFilter = "";
   List<AnimalType> _typeFilters = <AnimalType>[];
 
+  bool _nHemisphereFilter;
+  bool _monthsFilter;
+  bool _hoursFilter;
+
   bool _sortAsc;
   int _sortColumnIndex;
 
@@ -43,13 +47,22 @@ class _ListPersonPageState extends State<ListAnimalPage> {
 
   @override
   void initState() {
-    _sortAsc = true;
-    _sortColumnIndex = 0;
     advancedFilterVisibility = false;
+
+    _sortAsc = true;
+    _sortColumnIndex = 1;
+
+    _typeFilters.addAll(AnimalType.values);
+
+    _nHemisphereFilter = true;
+    _monthsFilter = false;
+    _hoursFilter = false;
+
     filteredAnimals.addAll(allAnimals);
     searchedAnimals.addAll(allAnimals);
-    _typeFilters.addAll(AnimalType.values);
-    searchedAnimals.sort((a, b) => a.name.compareTo(b.name));
+
+    filterSearchAndSortResults();
+
     super.initState();
   }
 
@@ -65,6 +78,13 @@ class _ListPersonPageState extends State<ListAnimalPage> {
 
   void filterResults() {
     filteredAnimals = allAnimals.where((i) => _typeFilters.contains(i.type)).toList();
+    DateTime current = DateTime.now();
+
+//    if(_nHemisphereFilter && (_monthsFilter || _hoursFilter)) {
+//      if(_monthsFilter) {
+//        filteredAnimals = filteredAnimals.where((i) => _).toList();
+//      }
+//    }
   }
 
   void searchResults() {
@@ -78,21 +98,21 @@ class _ListPersonPageState extends State<ListAnimalPage> {
 
   void sortResults() {
     switch (_sortColumnIndex) {
-      case 0:
+      case 1:
         if(_sortAsc) {
           searchedAnimals.sort((a, b) => a.name.compareTo(b.name));
         } else {
           searchedAnimals.sort((a, b) => b.name.compareTo(a.name));
         }
         break;
-      case 1:
+      case 2:
         if(_sortAsc) {
           searchedAnimals.sort((a, b) => a.price.compareTo(b.price));
         } else {
           searchedAnimals.sort((a, b) => b.price.compareTo(a.price));
         }
         break;
-      case 2:
+      case 3:
         if(_sortAsc) {
           searchedAnimals.sort((a, b) => a.type.index.compareTo(b.type.index));
         } else {
@@ -164,11 +184,11 @@ class _ListPersonPageState extends State<ListAnimalPage> {
                           child: Text("Type"),
                         ),
                         FilterChip(
-                          label: Text("Bug"),
-                          selected: _typeFilters.contains(AnimalType.bug),
+                          label: Text("Insect"),
+                          selected: _typeFilters.contains(AnimalType.insect),
                           onSelected: (bool value) {
                             setState(() {
-                              updateFilter(AnimalType.bug, value);
+                              updateFilter(AnimalType.insect, value);
                               filterSearchAndSortResults();
                             });
                           },
@@ -194,7 +214,46 @@ class _ListPersonPageState extends State<ListAnimalPage> {
                           },
                         ),
                       ],
-                    )
+                    ),
+
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Date"),
+                        ),
+                        FilterChip(
+                          label: Text("North"),
+                          selected: _nHemisphereFilter,
+                          onSelected: (bool value) {
+                            setState(() {
+                              _nHemisphereFilter = !_nHemisphereFilter;
+                              filterSearchAndSortResults();
+                            });
+                          },
+                        ),
+                        FilterChip(
+                          label: Text("Months"),
+                          selected: _monthsFilter,
+                          onSelected: (bool value) {
+                            setState(() {
+                              _monthsFilter = !_monthsFilter;
+                              filterSearchAndSortResults();
+                            });
+                          },
+                        ),
+                        FilterChip(
+                          label: Text("Hours"),
+                          selected: _hoursFilter,
+                          onSelected: (bool value) {
+                            setState(() {
+                              _hoursFilter = !_hoursFilter;
+                              filterSearchAndSortResults();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -296,16 +355,46 @@ class Animal {
   String name;
   int price;
   AnimalType type;
-  DatesAvailable datesAvailable;
+  DatesAvailable nhDatesAvailable;
+  DatesAvailable shDatesAvailable;
 
-  Animal({this.iconName, this.name, this.price, this.type}) {
+  Animal({this.iconName, this.name, this.price, this.type, this.nhDatesAvailable, this.shDatesAvailable}) {
     this.icon = Image(image: AssetImage(this.iconName));
   }
 
   static List<Animal> getAnimals() {
     return <Animal>[
-      Animal(iconName: 'images/Fish6.png', name: "Koi", price: 4000, type: AnimalType.fish),
-      Animal(iconName: 'images/Ins12.png',name: "Wasp", price: 2500, type: AnimalType.bug),
+      Animal(iconName: 'images/Fish6.png', name: "Koi", price: 4000, type: AnimalType.fish,
+        nhDatesAvailable: DatesAvailable(
+          january: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          february: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          march: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          april: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          may: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          june: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          july: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          august: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          september: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          october: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          november: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          december: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+        ),
+        shDatesAvailable: DatesAvailable(
+          january: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          february: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          march: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          april: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          may: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          june: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          july: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          august: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          september: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          october: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          november: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+          december: DateTimeRange(start: DateTime(1900, 1, 1, 1, 16, 0, 0), end: DateTime(1900, 1, 2, 9, 0, 0)),
+        ),
+      ),
+      Animal(iconName: 'images/Ins12.png',name: "Wasp", price: 2500, type: AnimalType.insect),
       Animal(iconName: 'images/Hitode.png',name: "Sea Star", price: 500, type: AnimalType.sea),
       Animal(iconName: 'images/Namako.png',name: "Sea Cucumber", price: 500, type: AnimalType.sea),
       Animal(iconName: 'images/Fish1.png',name: "Carp", price: 300, type: AnimalType.fish),
@@ -332,7 +421,7 @@ class Animal {
 }
 
 enum AnimalType {
-  bug,
+  insect,
   fish,
   sea,
 }
@@ -350,6 +439,8 @@ class DatesAvailable {
   DateTimeRange october;
   DateTimeRange november;
   DateTimeRange december;
+
+  DatesAvailable({this.january, this.february, this.march, this.april, this.may, this.june, this.july, this.august, this.september, this.october, this.november, this.december});
 }
 
 extension ParseToString on AnimalType {
