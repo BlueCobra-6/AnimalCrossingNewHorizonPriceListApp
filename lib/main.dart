@@ -8,7 +8,7 @@ import 'package:flutter/rendering.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'Animal Crossing Price List';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-        home: new ListAnimalPage(title: 'Animal Crossing'),
+        home: new ListAnimalPage(title: _title),
     );
   }
 }
@@ -325,28 +325,28 @@ class _ListPersonPageState extends State<ListAnimalPage> {
 
 class Animal {
   Image icon;
-  String iconName;
+  String iconFilename;
   String name;
   int price;
   AnimalType type;
   DatesAvailable datesAvailable;
 
-  Animal({this.iconName, this.name, this.price, this.type}) {
-    this.icon = Image(image: AssetImage(this.iconName));
+  Animal({this.iconFilename, this.name, this.price, this.type}) {
+    this.icon = Image(image: AssetImage('images/' + this.iconFilename + '.png'));
   }
 
   Animal.fromJson(Map<String, dynamic> json)
-      : iconName = json['iconName'],
+      : iconFilename = json['iconFilename'],
         name = json['name'],
         price = json['price'],
         type = parseAnimalType(json['type'])
   {
-    this.icon = Image(image: AssetImage(this.iconName));
+    this.icon = Image(image: AssetImage('images/' + this.iconFilename + '.png'));
   }
 
   Map<String, dynamic> toJson() =>
   {
-    'iconName': iconName,
+    'iconFilename': iconFilename,
     'name': name,
     'price': price,
     'type': type,
