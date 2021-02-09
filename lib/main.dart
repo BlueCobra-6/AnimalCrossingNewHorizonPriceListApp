@@ -49,7 +49,7 @@ class _ListPersonPageState extends State<ListAnimalPage> {
   @override
   void initState() {
     _sortAsc = true;
-    _sortColumnIndex = 0;
+    _sortColumnIndex = 1;
     advancedFilterVisibility = false;
 
     _future = fetchAnimals(context);
