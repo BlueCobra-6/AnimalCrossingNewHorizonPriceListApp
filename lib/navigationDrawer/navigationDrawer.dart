@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:AnimalCrossingApp/routes/pageRoutes.dart';
 import 'package:AnimalCrossingApp/widgets/createDrawerHeader.dart';
 import 'package:AnimalCrossingApp/widgets/createDrawerBodyItem.dart';
-import 'package:AnimalCrossingApp/routes/pageRoutes.dart';
 
 class NavigationDrawer extends StatelessWidget {
   @override
@@ -13,30 +13,17 @@ class NavigationDrawer extends StatelessWidget {
         children: <Widget>[
           createDrawerHeader(),
           createDrawerBodyItem(
-            icon: Icons.home,
-            text: 'Home',
+            icon: Icons.pest_control,
+            text: 'Price List',
             onTap: () =>
-                Navigator.pushReplacementNamed(context, PageRoutes.home),
-          ),
-          createDrawerBodyItem(
-            icon: Icons.account_circle,
-            text: 'Profile',
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, PageRoutes.profile),
-          ),
-
-          createDrawerBodyItem(
-            icon: Icons.event_note,
-            text: 'Events',
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, PageRoutes.event),
+                Navigator.pushReplacementNamed(context, PageRoutes.price),
           ),
           Divider(),
           createDrawerBodyItem(
-            icon: Icons.notifications_active,
-            text: 'Notifications',
+            icon: Icons.info,
+            text: 'App info',
             onTap: () =>
-                Navigator.pushReplacementNamed(context, PageRoutes.notification),
+                Navigator.pushReplacementNamed(context, PageRoutes.info),
           ),
           createDrawerBodyItem(
             icon: Icons.contact_phone,
