@@ -26,6 +26,12 @@ class NavigationDrawer extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, PageRoutes.info),
           ),
           createDrawerBodyItem(
+            icon: Icons.feedback,
+            text: 'Feedback',
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, PageRoutes.feedback),
+          ),
+          createDrawerBodyItem(
             icon: Icons.contact_phone,
             text: 'Contact Info',
             onTap: () =>

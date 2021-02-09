@@ -4,6 +4,7 @@ import 'routes/pageRoutes.dart';
 import 'fragments/contactPage.dart';
 import 'fragments/animalPriceListPage.dart';
 import 'fragments/appInfoPage.dart';
+import 'fragments/feedbackPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       home: AnimalPriceListPage(),
       routes:  {
         PageRoutes.price: (context) => AnimalPriceListPage(),
+        PageRoutes.feedback: (context) => FeedbackPage(),
         PageRoutes.contact: (context) => ContactPage(),
         PageRoutes.info: (context) => AppInfoPage(),
       },
