@@ -134,6 +134,7 @@ class _ListPersonPageState extends State<AnimalPriceListPage> {
                               labelText: "Search",
                               hintText: "Search",
                               prefixIcon: Icon(Icons.search),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(25.0)))),
                         ),
