@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'routes/pageRoutes.dart';
 import 'fragments/contactPage.dart';
 import 'fragments/animalPriceListPage.dart';
-import 'fragments/appInfoPage.dart';
+import 'fragments/privacyPolicyPage.dart';
 import 'fragments/feedbackPage.dart';
 
 void main() => runApp(MyApp());
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         PageRoutes.price: (context) => AnimalPriceListPage(),
         PageRoutes.feedback: (context) => FeedbackPage(),
         PageRoutes.contact: (context) => ContactPage(),
-        PageRoutes.info: (context) => AppInfoPage(),
+        PageRoutes.privacy: (context) => PrivacyPolicyPage(),
       },
     );
   }

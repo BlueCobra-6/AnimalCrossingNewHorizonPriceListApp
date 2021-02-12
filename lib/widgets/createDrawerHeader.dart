@@ -4,10 +4,12 @@ Widget createDrawerHeader() {
   return DrawerHeader(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fill,
-              image:  AssetImage('images/bg_header.jpeg'))),
+//      decoration: BoxDecoration(
+//          image: DecorationImage(
+//              fit: BoxFit.fill,
+//              image:  AssetImage('images/bg_header.jpeg'),
+//          )
+//      ),
       child: Stack(children: <Widget>[
         Positioned(
             bottom: 12.0,

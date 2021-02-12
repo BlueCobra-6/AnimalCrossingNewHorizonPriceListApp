@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:AnimalCrossingApp/navigationDrawer/navigationDrawer.dart';
 
-class AppInfoPage extends StatelessWidget {
-  static const String routeName = '/notificationPage';
+class PrivacyPolicyPage extends StatelessWidget {
+  static const String routeName = '/privacyPolicyPage';
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text("Notifications"),
+          title: Text("Privacy Policy"),
         ),
         drawer: NavigationDrawer(),
         body: Center(child: Text("This is notification page")));

@@ -2,6 +2,8 @@ PODS:
   - Flutter (1.0.0)
   - package_info (0.0.1):
     - Flutter
+  - package_info_plus (0.4.5):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
@@ -12,6 +14,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -21,6 +24,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
@@ -31,6 +36,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   package_info: d4726d54c0214c4d363b2333d66a753d1d6ec22a
+  package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider: d1a68c4065ce2e0f6fd03f8a46d698525dc79f06
   shared_preferences: 5d0fc5691f4e7293ddfc1b599ca398f8af42f5e7
   url_launcher: 6f6d372e3f35bd604744421b3cb4a818b23eae7b

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
 
 import 'package:AnimalCrossingApp/routes/pageRoutes.dart';
+import 'package:AnimalCrossingApp/widgets/appVersionWidget.dart';
 import 'package:AnimalCrossingApp/widgets/createDrawerHeader.dart';
 import 'package:AnimalCrossingApp/widgets/createDrawerBodyItem.dart';
 
 class NavigationDrawer extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,7 +27,7 @@ class NavigationDrawer extends StatelessWidget {
             icon: Icons.info,
             text: 'App info',
             onTap: () =>
-                Navigator.pushReplacementNamed(context, PageRoutes.info),
+                Navigator.pushReplacementNamed(context, PageRoutes.privacy),
           ),
           createDrawerBodyItem(
             icon: Icons.feedback,
@@ -38,7 +42,7 @@ class NavigationDrawer extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, PageRoutes.contact),
           ),
           ListTile(
-            title: Text('App version 1.0.0'),
+            title: appVersionWidget(),
             onTap: () {},
           ),
         ],
@@ -46,3 +50,17 @@ class NavigationDrawer extends StatelessWidget {
     );
   }
 }
+
+//Future<String> getAppVersion() async {
+//  String appName;
+//  String packageName;
+//  String version;
+//  String buildNumber;
+//  PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+//    appName = packageInfo.appName;
+//    packageName = packageInfo.packageName;
+//    version = packageInfo.version;
+//    buildNumber = packageInfo.buildNumber;
+//  });
+//  return version;
+//}
