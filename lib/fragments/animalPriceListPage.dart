@@ -115,200 +115,212 @@ class _ListPersonPageState extends State<AnimalPriceListPage> {
         toolbarHeight: 40,
       ),
       drawer: NavigationDrawer(),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {
-                              searchFilter = value.toLowerCase();
-                              filterSearchAndSortResults();
-                            });
-                          },
-                          controller: searchController,
-                          decoration: InputDecoration(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            onChanged: (value) {
+                              setState(() {
+                                searchFilter = value.toLowerCase().trim();
+                                filterSearchAndSortResults();
+                              });
+                            },
+                            controller: searchController,
+                            decoration: InputDecoration(
                               labelText: "Search",
                               hintText: "Search",
+                              isDense: true,
                               prefixIcon: Icon(Icons.search),
                               contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-                        ),
-                      ),
-                      TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            advancedFilterVisibility = !advancedFilterVisibility;
-                          });
-                        },
-                        icon: Icon(Icons.filter_list, size: 18),
-                        label: Text("FILTER"),
-                      ),
-                    ]
-                )
-            ),
-            Visibility(
-              visible: advancedFilterVisibility,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Type"),
-                        ),
-                        FilterChip(
-                          label: Text("Insect"),
-                          selected: _typeFilters.contains(AnimalType.insect),
-                          onSelected: (bool value) {
-                            setState(() {
-                              updateFilter(AnimalType.insect, value);
-                              filterSearchAndSortResults();
-                            });
-                          },
-                        ),
-                        FilterChip(
-                          label: Text("Fish"),
-                          selected: _typeFilters.contains(AnimalType.fish),
-                          onSelected: (bool value) {
-                            setState(() {
-                              updateFilter(AnimalType.fish, value);
-                              filterSearchAndSortResults();
-                            });
-                          },
-                        ),
-                        FilterChip(
-                          label: Text("Sea"),
-                          selected: _typeFilters.contains(AnimalType.sea),
-                          onSelected: (bool value) {
-                            setState(() {
-                              updateFilter(AnimalType.sea, value);
-                              filterSearchAndSortResults();
-                            });
-                          },
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: FutureBuilder(
-                    future: _future,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        print(snapshot.error);
-                      }
-
-                      if(!snapshot.hasData) {
-                        return Container(
-                          margin: EdgeInsets.only(top: 100),
-                          child: Center(
-                            child:
-                              CircularProgressIndicator()
+                                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
+//                              focusColor: Colors.grey[400],
+                            ),
                           ),
-                        );
-                      }
-
-                      if(snapshot.hasData) {
-                        allAnimals = snapshot.data;
-                        filterSearchAndSortResults();
-                        return DataTable(
-                          sortAscending: _sortAsc,
-                          sortColumnIndex: _sortColumnIndex,
-                          columns: [
-                            DataColumn(
-                              label: Text("Icon", style: TextStyle(fontSize: 16)),
-                              numeric: false,
-                            ),
-                            DataColumn(
-                              label: Text("Name", style: TextStyle(fontSize: 16)),
-                              numeric: false,
-                              onSort: (columnIndex, sortAscending) {
-                                setState(() {
-                                  if (columnIndex == _sortColumnIndex) {
-                                    _sortAsc = sortAscending;
-                                  } else {
-                                    _sortColumnIndex = columnIndex;
-                                    _sortAsc = true;
-                                  }
-                                  filterSearchAndSortResults();
-                                });
-                              },
-                            ),
-                            DataColumn(
-                              label: Text("Price", style: TextStyle(fontSize: 16)),
-                              numeric: true,
-                              onSort: (columnIndex, sortAscending) {
-                                setState(() {
-                                  if (columnIndex == _sortColumnIndex) {
-                                    _sortAsc = sortAscending;
-                                  } else {
-                                    _sortColumnIndex = columnIndex;
-                                    _sortAsc = true;
-                                  }
-                                  filterSearchAndSortResults();
-                                });
-                              },
-                            ),
-                            DataColumn(
-                              label: Text("Type", style: TextStyle(fontSize: 16)),
-                              numeric: false,
-                              onSort: (columnIndex, sortAscending) {
-                                setState(() {
-                                  if (columnIndex == _sortColumnIndex) {
-                                    _sortAsc = sortAscending;
-                                  } else {
-                                    _sortColumnIndex = columnIndex;
-                                    _sortAsc = true;
-                                  }
-                                  filterSearchAndSortResults();
-                                });
-                              },
-                            ),
-                          ],
-                          rows: searchedAnimals
-                              .map(
-                                (avenger) => DataRow(
-                              //                    selected: selectedAvengers.contains(avenger),
-                                cells: [
-                                  DataCell(
-                                    avenger.icon,
-                                  ),
-                                  DataCell(
-                                    Text(avenger.name),
-                                    //                        onTap: () {
-                                    //                          print('Selected ${avenger.name}');
-                                    //                        },
-                                  ),
-                                  DataCell(
-                                    Text(avenger.price.toString()),
-                                  ),
-                                  DataCell(
-                                    Text(avenger.type.toShortString()),
-                                  ),
-                                ]),
-                          )
-                              .toList(),
-                        );
-                      }
-
-                      return Center();
-                    }
+                        ),
+                        TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              advancedFilterVisibility = !advancedFilterVisibility;
+                            });
+                          },
+                          icon: Icon(Icons.filter_list, size: 18),
+                          label: Text("FILTER"),
+                        ),
+                      ]
+                  )
+              ),
+              Visibility(
+                visible: advancedFilterVisibility,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Type"),
+                          ),
+                          FilterChip(
+                            label: Text("Insect"),
+                            selected: _typeFilters.contains(AnimalType.insect),
+                            onSelected: (bool value) {
+                              setState(() {
+                                updateFilter(AnimalType.insect, value);
+                                filterSearchAndSortResults();
+                              });
+                            },
+                          ),
+                          FilterChip(
+                            label: Text("Fish"),
+                            selected: _typeFilters.contains(AnimalType.fish),
+                            onSelected: (bool value) {
+                              setState(() {
+                                updateFilter(AnimalType.fish, value);
+                                filterSearchAndSortResults();
+                              });
+                            },
+                          ),
+                          FilterChip(
+                            label: Text("Sea"),
+                            selected: _typeFilters.contains(AnimalType.sea),
+                            onSelected: (bool value) {
+                              setState(() {
+                                updateFilter(AnimalType.sea, value);
+                                filterSearchAndSortResults();
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: FutureBuilder(
+                      future: _future,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          print(snapshot.error);
+                        }
+
+                        if(!snapshot.hasData) {
+                          return Container(
+                            margin: EdgeInsets.only(top: 100),
+                            child: Center(
+                              child:
+                                CircularProgressIndicator()
+                            ),
+                          );
+                        }
+
+                        if(snapshot.hasData) {
+                          allAnimals = snapshot.data;
+                          filterSearchAndSortResults();
+                          return DataTable(
+                            sortAscending: _sortAsc,
+                            sortColumnIndex: _sortColumnIndex,
+                            columns: [
+                              DataColumn(
+                                label: Text("Icon", style: TextStyle(fontSize: 16)),
+                                numeric: false,
+                              ),
+                              DataColumn(
+                                label: Text("Name", style: TextStyle(fontSize: 16)),
+                                numeric: false,
+                                onSort: (columnIndex, sortAscending) {
+                                  setState(() {
+                                    if (columnIndex == _sortColumnIndex) {
+                                      _sortAsc = sortAscending;
+                                    } else {
+                                      _sortColumnIndex = columnIndex;
+                                      _sortAsc = true;
+                                    }
+                                    filterSearchAndSortResults();
+                                  });
+                                },
+                              ),
+                              DataColumn(
+                                label: Text("Price", style: TextStyle(fontSize: 16)),
+                                numeric: true,
+                                onSort: (columnIndex, sortAscending) {
+                                  setState(() {
+                                    if (columnIndex == _sortColumnIndex) {
+                                      _sortAsc = sortAscending;
+                                    } else {
+                                      _sortColumnIndex = columnIndex;
+                                      _sortAsc = true;
+                                    }
+                                    filterSearchAndSortResults();
+                                  });
+                                },
+                              ),
+                              DataColumn(
+                                label: Text("Type", style: TextStyle(fontSize: 16)),
+                                numeric: false,
+                                onSort: (columnIndex, sortAscending) {
+                                  setState(() {
+                                    if (columnIndex == _sortColumnIndex) {
+                                      _sortAsc = sortAscending;
+                                    } else {
+                                      _sortColumnIndex = columnIndex;
+                                      _sortAsc = true;
+                                    }
+                                    filterSearchAndSortResults();
+                                  });
+                                },
+                              ),
+                            ],
+                            rows: searchedAnimals
+                                .map(
+                                  (avenger) => DataRow(
+                                //                    selected: selectedAvengers.contains(avenger),
+                                  cells: [
+                                    DataCell(
+                                      avenger.icon,
+                                    ),
+                                    DataCell(
+                                      Text(avenger.name),
+                                      //                        onTap: () {
+                                      //                          print('Selected ${avenger.name}');
+                                      //                        },
+                                    ),
+                                    DataCell(
+                                      Text(avenger.price.toString()),
+                                    ),
+                                    DataCell(
+                                      Text(avenger.type.toShortString()),
+                                    ),
+                                  ]),
+                            )
+                                .toList(),
+                          );
+                        }
+
+                        return Center();
+                      }
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
