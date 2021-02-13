@@ -6,9 +6,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 Widget appVersionWidget() {
   return new FutureBuilder(
       future: getAppVersion(),
-      builder: (BuildContext context, AsyncSnapshot<String> text) {
-        return new Text("App Version: " + (text.hasData ? text.data : "Loading..."));
-      });
+      builder: (BuildContext context, AsyncSnapshot<String> text) =>
+        Text("App Version: " + (text.hasData ? text.data : "Loading..."))
+      );
 }
 
   Future<String> getAppVersion() async {
