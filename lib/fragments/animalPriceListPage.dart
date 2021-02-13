@@ -210,7 +210,13 @@ class _ListPersonPageState extends State<AnimalPriceListPage> {
                       }
 
                       if(!snapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
+                        return Container(
+                          margin: EdgeInsets.only(top: 100),
+                          child: Center(
+                            child:
+                              CircularProgressIndicator()
+                          ),
+                        );
                       }
 
                       if(snapshot.hasData) {
