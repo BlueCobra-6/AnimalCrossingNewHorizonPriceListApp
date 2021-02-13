@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:app_review/app_review.dart';
+
 import 'package:AnimalCrossingApp/routes/pageRoutes.dart';
 import 'package:AnimalCrossingApp/widgets/appVersionWidget.dart';
 import 'package:AnimalCrossingApp/widgets/createDrawerHeader.dart';
@@ -38,6 +40,12 @@ class NavigationDrawer extends StatelessWidget {
             text: 'Contact Info',
             onTap: () =>
                 Navigator.pushReplacementNamed(context, PageRoutes.contact),
+          ),
+          createDrawerBodyItem(
+            icon: Icons.rate_review,
+            text: 'Rate',
+            onTap: () =>
+                AppReview.writeReview.then((onValue) {}),
           ),
           ListTile(
             title: appVersionWidget(),

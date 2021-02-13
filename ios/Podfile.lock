@@ -1,4 +1,6 @@
 PODS:
+  - app_review (1.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - package_info (0.0.1):
     - Flutter
@@ -14,6 +16,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - app_review (from `.symlinks/plugins/app_review/ios`)
   - Flutter (from `Flutter`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -23,6 +26,8 @@ DEPENDENCIES:
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 EXTERNAL SOURCES:
+  app_review:
+    :path: ".symlinks/plugins/app_review/ios"
   Flutter:
     :path: Flutter
   package_info:
@@ -39,6 +44,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
+  app_review: 6f51001269c59a2f4a5b5ae68b7d106401152764
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   package_info: d4726d54c0214c4d363b2333d66a753d1d6ec22a
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
@@ -47,6 +53,6 @@ SPEC CHECKSUMS:
   shared_preferences: 5d0fc5691f4e7293ddfc1b599ca398f8af42f5e7
   url_launcher: 6f6d372e3f35bd604744421b3cb4a818b23eae7b
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: a75497545d4391e2d394c3668e20cfb1c2bbd4aa
 
 COCOAPODS: 1.10.1
