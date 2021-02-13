@@ -12,15 +12,15 @@ Widget appVersionWidget() {
 }
 
   Future<String> getAppVersion() async {
-    String appName;
-    String packageName;
+//    String appName;
+//    String packageName;
     String version;
-    String buildNumber;
+//    String buildNumber;
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-      appName = packageInfo.appName;
-      packageName = packageInfo.packageName;
+//      appName = packageInfo.appName;
+//      packageName = packageInfo.packageName;
       version = packageInfo.version;
-      buildNumber = packageInfo.buildNumber;
+//      buildNumber = packageInfo.buildNumber;
     });
     return await new Future(() => version);
   }
