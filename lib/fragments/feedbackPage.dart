@@ -10,6 +10,8 @@ class FeedbackPage extends StatelessWidget {
     return new Scaffold(
         appBar: AppBar(
           title: Text("Provide Feedback"),
+          centerTitle: true,
+          toolbarHeight: 40,
         ),
         drawer: NavigationDrawer(),
         body: Center(child: Text("This is feedback page")));

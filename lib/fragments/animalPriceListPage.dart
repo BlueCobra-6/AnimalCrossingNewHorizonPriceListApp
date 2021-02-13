@@ -112,6 +112,7 @@ class _ListPersonPageState extends State<AnimalPriceListPage> {
       appBar: AppBar(
         title: Text('Animal Crossing Price List'),
         centerTitle: true,
+        toolbarHeight: 40,
       ),
       drawer: NavigationDrawer(),
       body: Container(

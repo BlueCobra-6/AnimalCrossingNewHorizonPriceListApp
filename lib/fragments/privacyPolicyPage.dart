@@ -10,6 +10,8 @@ class PrivacyPolicyPage extends StatelessWidget {
     return new Scaffold(
         appBar: AppBar(
           title: Text("Privacy Policy"),
+          centerTitle: true,
+          toolbarHeight: 40,
         ),
         drawer: NavigationDrawer(),
         body: Center(child: Text("This is notification page")));
