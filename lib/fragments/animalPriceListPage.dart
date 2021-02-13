@@ -126,7 +126,7 @@ class _ListPersonPageState extends State<AnimalPriceListPage> {
                         child: TextField(
                           onChanged: (value) {
                             setState(() {
-                              searchFilter = value;
+                              searchFilter = value.toLowerCase();
                               filterSearchAndSortResults();
                             });
                           },
