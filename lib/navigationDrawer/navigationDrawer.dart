@@ -30,16 +30,16 @@ class NavigationDrawer extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, PageRoutes.privacy),
           ),
           createDrawerBodyItem(
+            icon: Icons.contact_phone,
+            text: 'Contact Info',
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, PageRoutes.about),
+          ),
+          createDrawerBodyItem(
             icon: Icons.feedback,
             text: 'Feedback',
             onTap: () =>
                 Navigator.pushReplacementNamed(context, PageRoutes.feedback),
-          ),
-          createDrawerBodyItem(
-            icon: Icons.contact_phone,
-            text: 'Contact Info',
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, PageRoutes.contact),
           ),
           createDrawerBodyItem(
             icon: Icons.rate_review,

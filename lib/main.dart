@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 import 'routes/pageRoutes.dart';
-import 'fragments/contactPage.dart';
+import 'fragments/aboutPage.dart';
 import 'fragments/animalPriceListPage.dart';
 import 'fragments/privacyPolicyPage.dart';
 import 'fragments/feedbackPage.dart';
+import 'themes/AppTheme.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,8 +22,6 @@ class MyApp extends StatelessWidget {
       remindLaunches: 100
   );
 
-
-
   @override
   Widget build(BuildContext context) {
     _rateMyApp.init().then((_){
@@ -35,15 +34,14 @@ class MyApp extends StatelessWidget {
     });
     return new MaterialApp(
       title: _title,
-      theme: new ThemeData(
-        primaryColor: Colors.white,
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: AnimalPriceListPage(),
       routes:  {
         PageRoutes.price: (context) => AnimalPriceListPage(),
-        PageRoutes.feedback: (context) => FeedbackPage(),
-        PageRoutes.contact: (context) => ContactPage(),
         PageRoutes.privacy: (context) => PrivacyPolicyPage(),
+        PageRoutes.about: (context) => AboutPage(),
+        PageRoutes.feedback: (context) => FeedbackPage(),
       },
     );
   }
