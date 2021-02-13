@@ -7,20 +7,14 @@ Widget appVersionWidget() {
   return new FutureBuilder(
       future: getAppVersion(),
       builder: (BuildContext context, AsyncSnapshot<String> text) {
-        return new Text(text.hasData ? "App Version: " + text.data : "Loading...");
+        return new Text("App Version: " + (text.hasData ? text.data : "Loading..."));
       });
 }
 
   Future<String> getAppVersion() async {
-//    String appName;
-//    String packageName;
     String version;
-//    String buildNumber;
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-//      appName = packageInfo.appName;
-//      packageName = packageInfo.packageName;
       version = packageInfo.version;
-//      buildNumber = packageInfo.buildNumber;
     });
     return await new Future(() => version);
   }
